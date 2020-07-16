@@ -1,27 +1,29 @@
-import { isObject } from '../util/index'
+import { isObject, def } from '../util/index'
 import { arrayMethods } from './array.js'
 class Observe {
-     constructor (value) {
-        if (Array.isArray(value)) {
-            this.observerArray(value)
-        } else {
-            this.walk(value)
+    constructor (value) {
+        // 给每一个监控过的对象加一个ob属性[不可枚举]
+            def(value, '__ob__', this)
+            if (Array.isArray(value)) {
+                value.__proto__ = arrayMethods
+                this.observerArray(value)
+            } else {
+                this.walk(value)
+            }
         }
-     }
 
-     observerArray(value) {
-        value.forEach(item => {
-            observe[item]
-        })
-     }
+        observerArray(value) {
+            value.forEach(item => {
+                observe(item)
+            })
+        }
 
-     walk(data) {
-        let keys = Object.keys(data)
-        keys.forEach(item => {
-            let key = keys[item]
-            defineReactive(data, key, data[key]) // 定义响应式数据
-        })  
-     }
+        walk(data) {
+            let keys = Object.keys(data)
+            keys.forEach(item => {
+                defineReactive(data, item, data[item]) // 定义响应式数据
+            })  
+        }
 }
 
 function defineReactive(data, key, value) {

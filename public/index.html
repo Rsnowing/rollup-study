@@ -5,14 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
-<body>dsds
+<body>
+    <div id="app">
+        <span>{{message}}</span>
+        <span>{{array}}</span>
+    </div>
     <script src="/dist/umd/vue.js"></script>
     <script>
+        console.log(Vue)
         let vm = new Vue({
-            el: 'app',
+            el: '#app',
             data() {
                 return {
-                    message: 'hello-vue'
+                    message: 'hello-vue',
+                    array: [1]
                 }
             },
             computed: {
@@ -20,7 +26,7 @@
             }
         })
         vm._data.message = 'helllllllllll'
-        console.log(vm)
+        vm._data.array.push({obj: 1})
     </script>
 </body>
 </html>
